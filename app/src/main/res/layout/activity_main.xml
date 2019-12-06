@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/home_them"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profileCircleImage_id"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:layout_margin="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+
+        />
+
+
+
+    <TextView
+           android:id="@+id/profileName_id"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:gravity="center"
+           android:text="Warning..!"
+           android:layout_marginTop="5dp"
+           android:textColor="#FCFBFB"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintHorizontal_bias="0.0"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toBottomOf="@+id/profileCircleImage_id" />
+
+    <TextView
+        android:id="@+id/profileEmail_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Warning..!"
+        android:gravity="center"
+        android:textColor="#FCFAFA"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileName_id" />
+
+
+        <TextView
+            android:id="@+id/balanceShow_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Your Balance : 00"
+            android:textColor="#E64A19"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileEmail_id" />
+
+
+
+
+
+        <TextView
+        android:id="@+id/notification_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Warning..!"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp"
+        android:textColor="#090808"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/balanceShow_id" />
+
+
+    <TextView
+        android:id="@+id/notificationShow_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Notification"
+        android:gravity="top|start|left"
+        android:textColor="#fff"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/notification_id" />
+
+
+    <TextView
+        android:id="@+id/bodder"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#D32F2F"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/notificationShow_id"
+        />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="32dp"
+        android:text="Withdraw balance"
+        android:textSize="20sp"
+        android:textColor="#fff"
+        android:background="@drawable/button_design"
+        android:textAllCaps="false"
+        android:onClick="withdrawButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bodder" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:text="Share"
+        android:textSize="20sp"
+        android:textColor="#fff"
+        android:background="@drawable/button_design"
+        android:textAllCaps="false"
+        android:onClick="Share"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/button_design"
+            android:onClick="InstallApp"
+            android:text="Install App"
+            android:layout_marginBottom="20dp"
+            android:textAllCaps="false"
+            android:textColor="#fff"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button2" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/button_design"
+    android:padding="5dp"
+    android:layout_margin="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/blockUserName"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:text="User Name"
+        android:textColor="#000"
+        android:background="#fff"
+        android:gravity="center"
+        app:layout_constraintEnd_toStartOf="@+id/delete_id"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/blockUserEmail"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:text="Email Address"
+        android:textColor="#000"
+        android:background="#fff"
+        android:gravity="center"
+        app:layout_constraintEnd_toStartOf="@+id/delete_id"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/blockUserName" />
+
+    <Button
+        android:id="@+id/delete_id"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="Delete !"
+        android:textAllCaps="false"
+        android:background="#E9DBDB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/blockUserName"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
