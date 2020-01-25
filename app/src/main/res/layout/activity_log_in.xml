@@ -46,6 +46,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
+
+
+
+
+
     <EditText
         android:id="@+id/logInPasswordId"
         android:layout_width="match_parent"
@@ -66,6 +71,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logInEmailId" />
 
+
+    <TextView
+        android:id="@+id/forgetPassword_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Forget password ?"
+        android:textColor="#FBC02D"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.932"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logInPasswordId" />
+
     <Button
         android:id="@+id/logInId"
         android:layout_width="188dp"
@@ -80,7 +99,7 @@
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logInPasswordId" />
+        app:layout_constraintTop_toBottomOf="@+id/forgetPassword_id" />
 
     <TextView
         android:id="@+id/textView7"

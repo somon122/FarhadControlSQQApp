@@ -35,7 +35,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MainActivity extends AppCompatActivity {
 
 
-    TextView balanceTv,profileName,profileEmail,notificationTv;
+    TextView balanceTv, profileName, profileEmail, notificationTv;
     CircleImageView circleImageView;
 
     FirebaseAuth auth;
@@ -48,16 +48,13 @@ public class MainActivity extends AppCompatActivity {
     int blockCheck;
 
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         auth = FirebaseAuth.getInstance();
-        user= auth.getCurrentUser();
+        user = auth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Users");
 
@@ -68,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         circleImageView = findViewById(R.id.profileCircleImage_id);
 
 
-        if (user != null){
+        if (user != null) {
             uId = user.getUid();
             pushId = myRef.push().getKey();
             balanceControl();
@@ -79,13 +76,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void userProfile (){
+    private void userProfile() {
 
         user = auth.getCurrentUser();
         Picasso.get().load(user.getPhotoUrl()).placeholder(getDrawable(R.drawable.ic_launcher_background)).into(circleImageView);
         profileName.setText(user.getDisplayName());
         profileEmail.setText(user.getEmail());
-
 
 
     }
@@ -105,13 +101,13 @@ public class MainActivity extends AppCompatActivity {
 
         int id = item.getItemId();
 
-        if (id == R.id.action_logOut){
+        if (id == R.id.action_logOut) {
 
             alert();
         }
-        if (id == R.id.action_adminPanel){
+        if (id == R.id.action_adminPanel) {
 
-            adminPanel("farhad#");
+            adminPanel("122farhad#");
 
         }
 
@@ -120,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void alert(){
+    private void alert() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -132,9 +128,8 @@ public class MainActivity extends AppCompatActivity {
 
                         FirebaseAuth.getInstance().signOut();
                         Toast.makeText(MainActivity.this, "Successfully LogOut ", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(),LogInActivity.class));
+                        startActivity(new Intent(getApplicationContext(), LogInActivity.class));
                         finish();
-
 
 
                     }
@@ -144,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
 
                 dialogInterface.dismiss();
                 Toast.makeText(MainActivity.this, "Thank You for Staying...", Toast.LENGTH_SHORT).show();
-
 
 
             }
@@ -163,11 +157,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if (dataSnapshot.exists()){
+                if (dataSnapshot.exists()) {
 
                     String value = dataSnapshot.getValue(String.class);
                     mainPoints = Integer.parseInt(value);
-                    balanceTv.setText("Your Points : "+value);
+                    balanceTv.setText("Your Points : " + value);
 
                 }
 
@@ -218,16 +212,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        if (FirebaseAuth.getInstance().getCurrentUser() == null){
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             startActivity(new Intent(MainActivity.this, LogInActivity.class));
         }
 
@@ -235,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void Share(View view) {
 
-         shareApp();
+        shareApp();
 
     }
 
@@ -243,24 +234,24 @@ public class MainActivity extends AppCompatActivity {
 
         try {
 
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id="+"com.farhad.quiz_question")));
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + "com.farhad.quiz_question")));
 
-        }catch (ActivityNotFoundException e){
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id="+"com.farhad.quiz_question")));
+        } catch (ActivityNotFoundException e) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + "com.farhad.quiz_question")));
         }
 
     }
 
     public void withdrawButton(View view) {
 
-        if (blockCheck <=2){
-            if (mainPoints >=50){
+        if (blockCheck <= 2) {
+            if (mainPoints >= 20) {
                 startActivity(new Intent(MainActivity.this, WithdrawActivity.class));
-            }else {
+            } else {
                 problemAlert();
             }
 
-        }else {
+        } else {
             Toast.makeText(this, "Your account is already blocked", Toast.LENGTH_SHORT).show();
         }
 
@@ -271,11 +262,11 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        String shareBody = "App link : "+"https://play.google.com/store/apps/details?id="+"com.farhad.quiz_question";
+        String shareBody = "App link : " + "https://play.google.com/store/apps/details?id=" + "com.farhad.quiz_question";
         String shareSub = "Android App";
-        intent.putExtra(Intent.EXTRA_SUBJECT,shareSub);
-        intent.putExtra(Intent.EXTRA_TEXT,shareBody);
-        startActivity(Intent.createChooser(intent,"Quiz_Question_app"));
+        intent.putExtra(Intent.EXTRA_SUBJECT, shareSub);
+        intent.putExtra(Intent.EXTRA_TEXT, shareBody);
+        startActivity(Intent.createChooser(intent, "Quiz_Question_app"));
 
     }
 
@@ -284,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        View view1 = getLayoutInflater().inflate(R.layout.admin_control,null);
+        View view1 = getLayoutInflater().inflate(R.layout.admin_control, null);
 
 
         final EditText passwordET = view1.findViewById(R.id.adminCheckPassword_id);
@@ -306,19 +297,19 @@ public class MainActivity extends AppCompatActivity {
 
                 String mPassword = passwordET.getText().toString();
 
-                if (mPassword.isEmpty()){
+                if (mPassword.isEmpty()) {
 
                     passwordET.setError("Please enter password");
 
-                }else {
+                } else {
 
-                    if (mPassword.equals(password)){
+                    if (mPassword.equals(password)) {
 
                         Toast.makeText(MainActivity.this, "Password is matches", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(MainActivity.this, NotificationActivity.class));
 
 
-                    }else {
+                    } else {
 
                         Toast.makeText(MainActivity.this, "Password is not matches", Toast.LENGTH_SHORT).show();
                     }
@@ -339,13 +330,13 @@ public class MainActivity extends AppCompatActivity {
         final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
         builder.setTitle("Sorry ..!")
-                .setMessage("You have not enough Balance\n\nMinimum Withdraw 50Tk..!")
+                .setMessage("You have not enough Balance\n\nMinimum Withdraw 20Tk..!")
                 .setCancelable(false)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                       dialog.dismiss();
+                        dialog.dismiss();
 
                     }
                 });
@@ -354,8 +345,6 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
 
     }
-
-
 
 
 }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,6 +32,7 @@ public class LogInActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseUser user;
     ProgressDialog dialog;
+    TextView forgetPassword;
 
 
     @Override
@@ -46,6 +48,7 @@ public class LogInActivity extends AppCompatActivity {
         logInButton = findViewById(R.id.logInId);
         emailEditText = findViewById(R.id.logInEmailId);
         passwordEditText = findViewById(R.id.logInPasswordId);
+        forgetPassword = findViewById(R.id.forgetPassword_id);
 
 
       /*  Bundle bundle = getIntent().getExtras();
@@ -55,6 +58,13 @@ public class LogInActivity extends AppCompatActivity {
             emailVerificationAlert();
 
         }*/
+
+      forgetPassword.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              startActivity(new Intent(LogInActivity.this,PasswordResetActivity.class));
+          }
+      });
 
         dialog = new ProgressDialog(this);
 

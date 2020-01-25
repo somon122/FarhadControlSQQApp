@@ -26,9 +26,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class NotificationActivity extends AppCompatActivity {
 
@@ -40,6 +46,8 @@ public class NotificationActivity extends AppCompatActivity {
     FirebaseUser user;
     FirebaseDatabase database;
     DatabaseReference myRef;
+
+    private FirebaseFirestore mFirestore;
     String uId;
     String pushId;
     ProgressDialog dialog;
@@ -48,6 +56,9 @@ public class NotificationActivity extends AppCompatActivity {
     private List<BlockUserClass> blockUserClassList;
     BlockUserAdapter adapter;
     BlockUserClass blockUserClass;
+    private Button smsButton;
+
+    int smsSubmitCount;
 
 
 
@@ -63,6 +74,8 @@ public class NotificationActivity extends AppCompatActivity {
         user= auth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Users");
+
+        mFirestore = FirebaseFirestore.getInstance();
 
 
         blockUserClass = new BlockUserClass();
@@ -84,11 +97,23 @@ public class NotificationActivity extends AppCompatActivity {
 
         notificationET = findViewById(R.id.notifyTV_id);
         submit = findViewById(R.id.submitNotify);
+        smsButton = findViewById(R.id.showSMS_submit_id);
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 notification();
+            }
+        });
+
+        smsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                smsSubmitCount= smsSubmitCount+1;
+                submit.setText("SMS Submit");
+                smsButton.setVisibility(View.GONE);
+
             }
         });
 
@@ -134,37 +159,69 @@ public class NotificationActivity extends AppCompatActivity {
 
         if (notify.isEmpty()){
 
-            notificationET.setError("Enter notification");
+            notificationET.setError("Enter Some Data");
         }else {
 
-            dialog.setMessage("Notification is uploading...");
+            dialog.setMessage("Data is uploading...");
             dialog.show();
-            myRef.child("Notification").setValue(notify)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
 
-                    if (task.isSuccessful()){
+            if (smsSubmitCount > 0){
 
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
+                String currentDateAndTime = sdf.format(new Date());
+
+                Map<String,Object> smsPost= new HashMap<>();
+                smsPost.put("mTime",currentDateAndTime);
+                smsPost.put("mSMS",notify);
+
+                mFirestore.collection("SMS_Collection").add(smsPost).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                        if (task.isSuccessful()){
+                            dialog.dismiss();
+                            notificationET.setText("");
+                            Toast.makeText(NotificationActivity.this, "Data Submit Success", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        notificationET.setText("");
                         dialog.dismiss();
-                        Toast.makeText(NotificationActivity.this, "Notification submit success", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NotificationActivity.this, "Data Submit Field", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
-                    }else {
+
+            }else {
+                myRef.child("Notification").setValue(notify)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+
+                                if (task.isSuccessful()){
+
+                                    dialog.dismiss();
+                                    Toast.makeText(NotificationActivity.this, "Notification submit success", Toast.LENGTH_SHORT).show();
+
+                                }else {
+                                    dialog.dismiss();
+                                    Toast.makeText(NotificationActivity.this, "Check net connection", Toast.LENGTH_SHORT).show();
+                                }
+
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
                         dialog.dismiss();
                         Toast.makeText(NotificationActivity.this, "Check net connection", Toast.LENGTH_SHORT).show();
+
                     }
+                });
 
-
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-
-                    dialog.dismiss();
-                    Toast.makeText(NotificationActivity.this, "Check net connection", Toast.LENGTH_SHORT).show();
-
-                }
-            });
+            }
 
         }
 

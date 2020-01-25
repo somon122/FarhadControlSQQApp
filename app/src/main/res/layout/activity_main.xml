@@ -89,6 +89,7 @@
         android:layout_height="wrap_content"
         android:hint="Notification"
         android:gravity="top|start|left"
+        android:textIsSelectable="true"
         android:textColor="#fff"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"

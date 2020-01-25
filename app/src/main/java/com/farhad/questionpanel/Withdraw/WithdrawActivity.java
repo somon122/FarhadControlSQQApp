@@ -53,13 +53,12 @@ public class WithdrawActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        if (item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
 
             this.finish();
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 
     @Override
@@ -74,11 +73,11 @@ public class WithdrawActivity extends AppCompatActivity {
         setTitle("Withdraw");
 
         auth = FirebaseAuth.getInstance();
-        user= auth.getCurrentUser();
+        user = auth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Users");
 
-        if (user != null){
+        if (user != null) {
             uId = user.getUid();
             pushId = myRef.push().getKey();
             balanceControl();
@@ -121,12 +120,12 @@ public class WithdrawActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if (dataSnapshot.exists()){
+                if (dataSnapshot.exists()) {
 
                     String value = dataSnapshot.getValue(String.class);
                     mainPoints = Integer.parseInt(value);
 
-                    pointTV.setText("Your Points : "+value);
+                    pointTV.setText("Your Points : " + value);
 
                 }
 
@@ -148,38 +147,50 @@ public class WithdrawActivity extends AppCompatActivity {
     }
 
 
-    private void sentPayment(){
+    private void sentPayment() {
 
         phoneNumber = paymentNumberET.getText().toString().trim();
 
-        if (phoneNumber.isEmpty()){
+        if (phoneNumber.isEmpty()) {
 
             paymentNumberET.setError("Please enter valid phone number");
 
-        }else {
+        } else {
 
-            if (mainPoints >= 50){
-                confirmAlert(spinnerValue,phoneNumber);
-            }else {
+            if (mainPoints >= 20) {
+
+                if (spinnerValue.equals("Mobile Recharge")){
+                    confirmAlert2(spinnerValue, phoneNumber);
+
+                }else {
+
+                    if (mainPoints >= 50){
+                        confirmAlert(spinnerValue, phoneNumber);
+
+                    }else {
+                        problemAlert();
+
+                    }
+                }
+
+            } else {
 
                 problemAlert();
 
             }
 
 
-
         }
-
 
 
     }
 
-    private void confirmAlert(String name, String number){
+    private void confirmAlert(String name, String number) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(WithdrawActivity.this);
 
         builder.setTitle("Confirm Alert!")
-                .setMessage("Please check your \n Payment Method name: "+name+" and\n Number is : "+number)
+                .setMessage("Please check your\nPayment Method: " + name + "\nNumber is : " + number+"\nAnd Amount : 50Tk")
                 .setCancelable(false)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
@@ -190,21 +201,21 @@ public class WithdrawActivity extends AppCompatActivity {
                         myRef.child("UserMainPoints").child(uId).setValue(lastPoint).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()){
+                                if (task.isSuccessful()) {
 
                                     String money = "50";
 
-                                    Withdraw withdraw = new Withdraw(spinnerValue,phoneNumber,money);
+                                    Withdraw withdraw = new Withdraw(spinnerValue, phoneNumber, money);
                                     myRef.child("WithdrawList").child(uId).child(pushId).setValue(withdraw)
                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
 
-                                                    if (task.isSuccessful()){
+                                                    if (task.isSuccessful()) {
 
                                                         completeAlert();
 
-                                                    }else {
+                                                    } else {
 
                                                         Toast.makeText(WithdrawActivity.this, "Net Connection problem", Toast.LENGTH_SHORT).show();
                                                     }
@@ -217,7 +228,7 @@ public class WithdrawActivity extends AppCompatActivity {
                                         }
                                     });
 
-                                }else {
+                                } else {
                                     Toast.makeText(WithdrawActivity.this, "Net connection problem.", Toast.LENGTH_SHORT).show();
                                 }
 
@@ -226,7 +237,71 @@ public class WithdrawActivity extends AppCompatActivity {
                         });
 
 
+                    }
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
 
+                dialogInterface.dismiss();
+
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+
+    }
+ private void confirmAlert2(String name, String number) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(WithdrawActivity.this);
+
+        builder.setTitle("Confirm Alert!")
+                .setMessage("Please check your \nPayment Method: " + name + "\nNumber is : " + number+"\nAnd Amount : 20Tk")
+                .setCancelable(false)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        int countpoint = mainPoints - 20;
+                        String lastPoint = String.valueOf(countpoint);
+                        myRef.child("UserMainPoints").child(uId).setValue(lastPoint).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+
+                                    String money = "20";
+
+                                    Withdraw withdraw = new Withdraw(spinnerValue, phoneNumber, money);
+                                    myRef.child("WithdrawList").child(uId).child(pushId).setValue(withdraw)
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+
+                                                    if (task.isSuccessful()) {
+
+                                                        completeAlert();
+
+                                                    } else {
+
+                                                        Toast.makeText(WithdrawActivity.this, "Net Connection problem", Toast.LENGTH_SHORT).show();
+                                                    }
+
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+
+                                        }
+                                    });
+
+                                } else {
+                                    Toast.makeText(WithdrawActivity.this, "Net connection problem.", Toast.LENGTH_SHORT).show();
+                                }
+
+
+                            }
+                        });
 
 
                     }
@@ -274,6 +349,7 @@ public class WithdrawActivity extends AppCompatActivity {
         dialog.show();
 
     }
+
     private void problemAlert() {
 
 
@@ -295,7 +371,7 @@ public class WithdrawActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-           dialog.dismiss();
+                dialog.dismiss();
 
             }
         });
@@ -304,8 +380,6 @@ public class WithdrawActivity extends AppCompatActivity {
         dialog.show();
 
     }
-
-
 
 
 }

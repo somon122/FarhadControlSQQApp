@@ -15,40 +15,31 @@
         android:roundIcon="@drawable/logo_black_24dp"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
-            android:screenOrientation="portrait"
-            >
-
+        <activity android:name=".LogIn.PasswordResetActivity"></activity>
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".LogIn.LogInActivity"
-            android:screenOrientation="portrait"
-
-            />
-        <activity android:name=".LogIn.SignUpActivity"
-            android:screenOrientation="portrait"
-
-            />
-        <activity android:name=".AdminPanel.NotificationActivity"
-            android:screenOrientation="portrait"
-
-            />
-        <activity android:name=".Withdraw.WithdrawActivity"
-            android:screenOrientation="portrait"
-
-            />
-
-
+        <activity
+            android:name=".LogIn.LogInActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LogIn.SignUpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AdminPanel.NotificationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Withdraw.WithdrawActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
-
-
     </application>
 
 </manifest>
